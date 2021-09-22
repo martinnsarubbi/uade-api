@@ -28,7 +28,12 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu,
+  UserRegistrarVacuna
+} from '../components/_dashboard/user';
 import { UserForm } from './UserForm';
 //
 import USERLIST from '../_mocks_/user';
@@ -239,6 +244,10 @@ export default function User() {
                             >
                               {sentenceCase(status)}
                             </Label>
+                          </TableCell>
+
+                          <TableCell>
+                            <UserRegistrarVacuna id={id} />
                           </TableCell>
 
                           <TableCell align="right">
