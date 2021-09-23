@@ -11,7 +11,9 @@ import {
   AppWeeklySales,
   AppOrderTimeline,
   AppCurrentVisits,
-  AppWebsiteVisits,
+  AppAltura,
+  AppPeso,
+  AppDiametro,
   AppTrafficBySite,
   AppCurrentSubject,
   AppConversionRates
@@ -24,23 +26,17 @@ export default function DashboardApp() {
     <Page title="Dashboard | MedicApp">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Indicadores de tus hijos</Typography>
+          <Typography variant="h4">Indicadores</Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits />
+            <AppAltura />
           </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits />
+          <Grid item xs={12} md={6} lg={8}>
+            <AppPeso />
           </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline />
+          <Grid item xs={12} md={6} lg={8}>
+            <AppDiametro />
           </Grid>
         </Grid>
       </Container>
