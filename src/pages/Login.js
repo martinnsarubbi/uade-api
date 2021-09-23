@@ -9,6 +9,7 @@ import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import { LoginForm } from '../components/authentication/login';
 import AuthSocial from '../components/authentication/AuthSocial';
+import babylogin from '../assets/young-doctor.jpg';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +55,7 @@ export default function Login() {
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
             ¡Bienvenido!
           </Typography>
-          <img src="/static/illustrations/illustration_login.png" alt="login" />
+          <img src={babylogin} alt="login" />
         </SectionStyle>
       </MHidden>
 

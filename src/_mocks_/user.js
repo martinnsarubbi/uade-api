@@ -8,7 +8,7 @@ import { mockImgAvatar } from '../utils/mockImages';
 const users = [
   {
     id: faker.datatype.uuid(),
-    name: 'Olivia González',
+    name: 'Olivia Diaz',
     edad: '3 meses',
     status: 'Vacunacion ok',
     role: 'Próximo control pediatrico: 10/10/2021'

@@ -49,10 +49,9 @@ const style = {
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Nombre', alignRight: false },
-  { id: 'edad', label: 'Edad', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'id', label: '', alignRight: false },
+  { id: 'edad', label: 'Estado', alignRight: false },
+  { id: 'role', label: 'Calendario vacunación', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -155,7 +154,7 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Mis hijos
+            Inicio
           </Typography>
           <Button
             onClick={handleOpen}
@@ -164,7 +163,7 @@ export default function User() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            Agregar perfil
+            Agregar perfil del niño
           </Button>
           <Modal
             open={open}
@@ -174,7 +173,7 @@ export default function User() {
           >
             <Box sx={style}>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
+                Agregar perfil del niño
               </Typography>
               <UserForm />
             </Box>
@@ -216,12 +215,6 @@ export default function User() {
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
-                            />
-                          </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />

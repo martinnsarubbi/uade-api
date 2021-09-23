@@ -45,7 +45,7 @@ const NOTIFICATIONS = [
   },
   {
     id: faker.datatype.uuid(),
-    title: 'Olivia Gonzalez',
+    title: 'Olivia Diaz',
     description: 'Debera aplicarse la vacuna contra el sarampion en 30 dias',
     avatar: null,
     type: null,

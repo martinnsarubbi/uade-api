@@ -5,23 +5,27 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
 import Register from './pages/Register';
-import DashboardApp from './pages/DashboardApp';
+import DashboardApp from './pages/Inicio';
 import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
+import RegistroPediatrico from './pages/RegistroPediatrico';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
     {
-      path: '/dashboard',
+      path: '/medicapp',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <DashboardApp /> },
+        { element: <Navigate to="inicio" replace /> },
+        { path: 'indicadores', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
+        { path: 'registrosPediatricos', element: <RegistroPediatrico /> },
+        { path: 'vacunas' },
+        { path: 'inicio', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
       ]
