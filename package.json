@@ -44,6 +44,7 @@
     "@iconify/react": "^3.0.1",
     "@material-ui/core": "^3.9.4",
     "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.0.0",
     "@mui/utils": "^5.0.0",

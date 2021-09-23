@@ -208,7 +208,7 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, Edad, avatarUrl, isVerified } = row;
+                      const { id, name, role, status, Edad, avatarUrl } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (

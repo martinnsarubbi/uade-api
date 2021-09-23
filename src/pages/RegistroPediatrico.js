@@ -1,13 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import MuiGrid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
 import { Icon } from '@iconify/react';
 import Modal from '@mui/material/Modal';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import AppBar from '@mui/material/AppBar';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -23,13 +28,50 @@ import {
   Typography
 } from '@mui/material';
 import Page from '../components/Page';
-import { UserForm } from './UserForm';
+import { RegistroPediatricoForm } from './RegistroPediatricoForm';
+import boyPhoto from '../assets/alvaro.jpg';
+import girlPhoto from '../assets/olivia.jpg';
 
-export default function AccessibleTabs1() {
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
+  };
+}
+
+export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -41,6 +83,14 @@ export default function AccessibleTabs1() {
     boxShadow: 24,
     p: 4
   };
+
+  const Grid = styled(MuiGrid)(({ theme }) => ({
+    width: '100%',
+    ...theme.typography.body2,
+    '& [role="separator"]': {
+      margin: theme.spacing(0, 2)
+    }
+  }));
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -72,40 +122,107 @@ export default function AccessibleTabs1() {
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Nuevo registro pediátrico
               </Typography>
-              <UserForm />
+              <RegistroPediatricoForm />
             </Box>
           </Modal>
         </Stack>
-        <Box sx={{ bgcolor: 'background.paper', width: 500 }}>
-          <AppBar position="static">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="secondary"
-              textColor="inherit"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="Olivia Diaz" {...a11yProps(0)} />
+              <Tab label="Álvaro Diaz" {...a11yProps(1)} />
             </Tabs>
-          </AppBar>
-          <SwipeableViews
-            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            index={value}
-            onChangeIndex={handleChangeIndex}
-          >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              Item One
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
-              Item Three
-            </TabPanel>
-          </SwipeableViews>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <Stack direction="row" alignItems="center" justifyContent="flex-start" spacing={8}>
+              <Avatar alt="Olivia" src={girlPhoto} sx={{ width: 120, height: 120 }} />
+              <Typography variant="h3" component="h3">
+                Fecha de nacimiento: 20/01/2020 (19 meses)
+              </Typography>
+            </Stack>
+            <div>&nbsp;</div>
+            <div>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    bgcolor: '#90EE90'
+                  }}
+                >
+                  <Typography>Control 10/01/2021</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Grid container>
+                      <Grid item xs>
+                        <b>Peso:</b> 123
+                      </Grid>
+                      <Divider orientation="vertical" flexItem />
+                      <Grid item xs>
+                        <b>Alura:</b> 123
+                      </Grid>
+                      <Divider orientation="vertical" flexItem />
+                      <Grid item xs>
+                        <b>Diámetro cabeza:</b> 123
+                      </Grid>
+                    </Grid>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography>
+                      <b>Observaciones</b>
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography>
+                      Salud en perfecto estado. Se debe realizar otra revisión en 1 mes y medio.
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography>
+                      <b>Medicamentos recetados:</b>
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography>
+                      Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography>
+                      <b>Estudios a realizar</b>
+                    </Typography>
+                  </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography>Estudios de sangre - Estudios de orina</Typography>
+                  </Stack>
+                  <Button>Cargar estudios</Button>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    bgcolor: '#90EE90'
+                  }}
+                >
+                  <Typography>Control 20/01/2020</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
+                    lacus ex, sit amet blandit leo lobortis eget.
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            No hay datos cargados.
+          </TabPanel>
         </Box>
       </Container>
     </Page>
