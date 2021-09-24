@@ -1,10 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
 
 // ----------------------------------------------------------------------
 
@@ -12,13 +14,28 @@ export default function UserRegistrarVacuna({ id }) {
   console.log('hoa');
 
   const [open, setOpen] = React.useState(false);
+  const [vacuna, setVacuna] = React.useState('hola');
+  const [lugarDeAplicacion, setLugarDeAplicacion] = React.useState('');
+  const [fecha, setFecha] = React.useState(null);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const registrarVacuna = (event, id) => {
+  const openRegistrarVacunaModal = (event, id) => {
     handleOpen();
     console.log(event);
     console.log(id);
+  };
+
+  const handleLugarDeAplicacion = (event) => {
+    setLugarDeAplicacion(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    console.log(vacuna);
+    console.log(lugarDeAplicacion);
+    console.log(fecha);
+    handleClose();
   };
 
   const style = {
@@ -33,19 +50,24 @@ export default function UserRegistrarVacuna({ id }) {
     p: 4
   };
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 }
+  const vacunas = [
+    { id: 0, edad: '0Meses', label: 'BCG (0 Meses)' },
+    { id: 1, edad: '0Meses', label: 'Hepatitis B (0 Meses)' },
+    { id: 2, edad: '2Meses', label: 'Pentavalente (a) (2 Meses)' },
+    { id: 3, edad: '2Meses', label: 'Rotavirus (2 Meses)' },
+    { id: 4, edad: '2Meses', label: 'SALK (Poliomielitis) (2 Meses)' },
+    { id: 5, edad: '2Meses', label: 'Neumococo Conjugada (2 Meses)' },
+    { id: 6, edad: '3Meses', label: 'Meningococo A/C/W/Y (3 Meses)' },
+    { id: 7, edad: '4Meses', label: 'Pentavalente (a) (4 Meses)' },
+    { id: 8, edad: '4Meses', label: 'Rotavirus (4 Meses)' },
+    { id: 9, edad: '4Meses', label: 'SALK (Poliomielitis) (4 Meses)' },
+    { id: 10, edad: '4Meses', label: 'Neumococo Conjugada (4 Meses)' },
+    { id: 11, edad: '5Meses', label: 'Meningococo A/C/W/Y (5 Meses)' }
   ];
 
   return (
     <>
-      <Button onClick={(event) => registrarVacuna(event, id)}>Agregar Vacuna</Button>
+      <Button onClick={(event) => openRegistrarVacunaModal(event, id)}>Agregar Vacuna</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -56,13 +78,32 @@ export default function UserRegistrarVacuna({ id }) {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={top100Films}
+            options={vacunas}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Movie" />}
+            onChange={(event, newVacuna) => {
+              setVacuna(newVacuna);
+            }}
+            renderInput={(params) => <TextField {...params} label="Vacuna" />}
           />
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <br />
+          <TextField onChange={handleLugarDeAplicacion} />
+          <br />
+          <br />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="Fecha de Vacunacion"
+              value={fecha}
+              onChange={(newFecha) => {
+                setFecha(newFecha);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          <br />
+          <br />
+          <Button variant="outlined" onClick={handleSubmit}>
+            Registrar
+          </Button>
         </Box>
       </Modal>
     </>
