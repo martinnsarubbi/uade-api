@@ -9,6 +9,7 @@ import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import { RegisterForm } from '../components/authentication/register';
 import AuthSocial from '../components/authentication/AuthSocial';
+import babyRegister from '../assets/baby-register.jpg';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +55,7 @@ export default function Register() {
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
             Gestioná el registro médico de tus hijos con MedicApp
           </Typography>
-          <img alt="register" src="/static/illustrations/illustration_register.png" />
+          <img alt="register" src={babyRegister} />
         </SectionStyle>
       </MHidden>
 
