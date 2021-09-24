@@ -11,16 +11,16 @@ const CHART_DATA = [
   {
     name: 'Olivia',
     type: 'line',
-    data: [50, 54, 60, 62, 63, 65, 67, 69, 71, 72, 73]
+    data: [3.4, 4.9, 6.2, 6.4, 6.9, 7.5, 8, 8.4, 8.8, 9.2, 9.5]
   },
   {
     name: 'Alvaro',
     type: 'line',
-    data: [52, 56, 61, 62, 65, 66, 69, 72, 75, 76, 78]
+    data: [3.5, 4.9, 6.8, 7, 7.4, 7.9, 8.5, 8.9, 9.5, 9.9, 10.5]
   }
 ];
 
-export default function AppAltura() {
+export default function AppPeso() {
   const chartOptions = merge(BaseOptionChart(), {
     labels: [
       '01/01/2020',
@@ -42,7 +42,7 @@ export default function AppAltura() {
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)} cm`;
+            return `${y.toFixed(0)} kg`;
           }
           return y;
         }
@@ -52,7 +52,7 @@ export default function AppAltura() {
 
   return (
     <Card>
-      <CardHeader title="Altura" />
+      <CardHeader title="Peso" />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
       </Box>
