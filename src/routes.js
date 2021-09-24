@@ -9,6 +9,7 @@ import DashboardApp from './pages/Inicio';
 import User from './pages/User';
 import NotFound from './pages/Page404';
 import RegistroPediatrico from './pages/RegistroPediatrico';
+import TablaVacunas from './pages/TablaVacunas';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ export default function Router() {
         { path: 'indicadores', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'registrosPediatricos', element: <RegistroPediatrico /> },
-        { path: 'vacunas' },
+        { path: 'vacunas', element: <TablaVacunas /> },
         { path: 'inicio', element: <User /> }
       ]
     },
