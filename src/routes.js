@@ -6,6 +6,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/Inicio';
+import MainApp from './pages/Main';
 import User from './pages/User';
 import NotFound from './pages/Page404';
 import RegistroPediatrico from './pages/RegistroPediatrico';
@@ -31,10 +32,11 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
+        { path: 'main', element: <MainApp /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/login" /> },
+        { path: '/', element: <Navigate to="/main" /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
