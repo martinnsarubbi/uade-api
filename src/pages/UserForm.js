@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as Yup from 'yup';
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
@@ -14,14 +16,17 @@ import { useNavigate } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { crearHijo } from 'src/controller/UserController';
 
 // ----------------------------------------------------------------------
 
 export default function UserForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [enfermedades, setEnfermedades] = useState([]);
+  const [alergias, setAlergias] = useState([]);
 
-  const RegisterSchema = Yup.object().shape({
+  const ChildSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Tu nombre debe tener más de 1 caracter')
       .max(50, 'Tu nombre no puede tener más de 50 caractéres')
@@ -35,8 +40,15 @@ export default function UserForm() {
       .max(50, 'Tu DNI no puede tener más de 15 dígitos')
       .required('DNI requerido'),
     fechaDeNacimiento: Yup.date(),
-    email: Yup.string().email('Debés ingresar un email correcto').required('Email requerido'),
-    password: Yup.string().required('Password requerida')
+    bloodtype: Yup.string()
+      .min(2, 'El grupo sanguineo contiene al menos 2 caracteres')
+      .max(50, 'Tu grupo sanguineo no puede tener mas de 50 caracteres'),
+    chronicConditions: Yup.string()
+    .min(2, 'El grupo sanguineo contiene al menos 2 caracteres')
+    .max(50, 'Tu grupo sanguineo no puede tener mas de 50 caracteres'),
+    allergies: Yup.string()
+    .min(2, 'Las alergias contiene al menos 2 caracteres')
+    .max(50, 'Tu grupo sanguineo no puede tener mas de 50 caracteres'),
   });
 
   const [bloodType, setBloodType] = React.useState('');
@@ -51,37 +63,39 @@ export default function UserForm() {
       lastName: '',
       dni: '',
       fechaDeNacimiento: '',
-      email: '',
-      password: ''
+      bloodType: ''
     },
-    validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    validationSchema: ChildSchema,
+    onSubmit: (initialValues) => {
+        registrarHijo(initialValues);
+        // navigate('/dashboard', { replace: true });
     }
   });
 
-  const enfermedades = [];
+  const registrarHijo = async function (initialValues) {
+    crearHijo(initialValues.firstName, initialValues.lastName, initialValues.dni, initialValues.fechaDeNacimiento, bloodType, enfermedades, alergias)
+    // let getLogin = await login(email, password);
+    // if (getLogin.isLogin) {
+    //     setUsuarioValido(true);
+    // } else {
+    //     alert(getLogin.message);
+    // }
+  };
 
   const handleAddEnfermedad = (enfermedad) => {
-    enfermedades.push(enfermedad);
+    setEnfermedades(enfermedades => [...enfermedades, enfermedad]);
   };
 
-  const handleDeleteEnfermedad = (enfermedades, index) => {
-    if (index > -1) {
-      enfermedades.splice(index, 1);
-    }
+  const handleDeleteEnfermedad = (enfermedadBorrada, index) => {
+    setAlergias(enfermedades.filter(enfermedad => enfermedad !== enfermedadBorrada))
   };
-
-  const alergias = [];
 
   const handleAddAlergia = (alergia) => {
-    alergias.push(alergia);
+    setAlergias(alergias => [...alergias, alergia]);
   };
 
-  const handleDeleteAlergia = (alergias, index) => {
-    if (index > -1) {
-      alergias.splice(index, 1);
-    }
+  const handleDeleteAlergia = (alergiaBorrada, index) => {
+    setAlergias(alergias.filter(alergia => alergia !== alergiaBorrada))
   };
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
@@ -150,14 +164,14 @@ export default function UserForm() {
                 label="Enfermedades crónicas"
                 value={enfermedades}
                 onAdd={(enfermedad) => handleAddEnfermedad(enfermedad)}
-                onDelete={(enfermedad, index) => handleDeleteEnfermedad(enfermedades, index)}
+                onDelete={(enfermedad, index) => handleDeleteEnfermedad(enfermedad, index)}
               />
               <ChipInput
                 fullWidth
                 label="Alergias"
                 value={alergias}
                 onAdd={(alergia) => handleAddAlergia(alergia)}
-                onDelete={(alergia, index) => handleDeleteAlergia(alergias, index)}
+                onDelete={(alergia, index) => handleDeleteAlergia(alergia, index)}
               />
             </Stack>
           </FormControl>
@@ -166,7 +180,6 @@ export default function UserForm() {
             size="large"
             type="submit"
             variant="contained"
-            loading={isSubmitting}
           >
             Registrar hijo
           </LoadingButton>

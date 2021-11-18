@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -37,6 +39,8 @@ import {
 import { UserForm } from './UserForm';
 //
 import USERLIST from '../_mocks_/user';
+
+import { getHijos } from '../controller/UserController';
 
 // ----------------------------------------------------------------------
 
@@ -97,6 +101,13 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [hijos, setHijos] = useState([]);
+
+  React.useEffect(() => {
+      console.log("asd");
+      let hijos = getHijos();
+      console.log("xcv");
+  }, [])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
