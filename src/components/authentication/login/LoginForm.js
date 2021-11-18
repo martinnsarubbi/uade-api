@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -16,12 +18,14 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { login } from '../../../controller/UserController';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [usuarioValido, setUsuarioValido] = useState(false);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Debe ingresar un email válido').required('Email requerido'),
@@ -35,8 +39,9 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/medicapp/inicio', { replace: true });
+    onSubmit: (initialValues) => {
+      validarLogin(initialValues.email, initialValues.password);
+      // navigate('/medicapp/inicio', { replace: true });
     }
   });
 
@@ -46,9 +51,25 @@ export default function LoginForm() {
     setShowPassword((show) => !show);
   };
 
+  const validarLogin = async function (email, password) {
+    let getLogin = await login(email, password);
+    if (getLogin.isLogin) {
+        setUsuarioValido(true);
+    } else {
+        alert(getLogin.message);
+    }
+  };
+
+  const redirect = () => {
+    if (usuarioValido) {
+      navigate('/medicapp/inicio', { replace: false });
+    }
+  };
+
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        {redirect()}
         <Stack spacing={3}>
           <TextField
             fullWidth
@@ -96,7 +117,6 @@ export default function LoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          loading={isSubmitting}
         >
           Login
         </LoadingButton>

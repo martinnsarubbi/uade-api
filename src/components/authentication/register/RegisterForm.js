@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -8,12 +10,14 @@ import { useNavigate } from 'react-router-dom';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { register } from '../../../controller/UserController';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -32,8 +36,11 @@ export default function RegisterForm() {
       .min(5, 'Tu teléfono debe tener más de 5 dígitos')
       .max(25, 'Tu teléfono no puede tener más de 25 dígitos')
       .required('DNI requerido'),
-    email: Yup.string().email('Debés ingresar un email correcto').required('Email requerido'),
-    password: Yup.string().required('Password requerida')
+    email: Yup.string()
+      .email('Debés ingresar un email correcto')
+      .required('Email requerido'),
+    password: Yup.string()
+      .required('Password requerida')
   });
 
   const formik = useFormik({
@@ -46,16 +53,34 @@ export default function RegisterForm() {
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: (initialValues) => {
+        console.log(initialValues);
+        validarRegistro(initialValues);
+      // navigate('/dashboard', { replace: true });
     }
   });
+
+  const validarRegistro = async function (values) {
+    let getRegister = await register(values);
+    if (getRegister.isRegistered) {
+        setIsRegistered(true);
+    } else {
+        alert(getRegister.message);
+    }
+  };
+
+  const redirect = () => {
+    if (isRegistered) {
+      navigate('/medicapp/inicio', { replace: false });
+    }
+  };
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        {redirect()}
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
@@ -81,13 +106,13 @@ export default function RegisterForm() {
               label="DNI"
               {...getFieldProps('dni')}
               error={Boolean(touched.dni && errors.dni)}
-              helperText={touched.dni && errors.firstNdniame}
+              helperText={touched.dni && errors.dni}
             />
 
             <TextField
               fullWidth
               label="Teléfono"
-              {...getFieldProps('lastName')}
+              {...getFieldProps('telephone')}
               error={Boolean(touched.telephone && errors.telephone)}
               helperText={touched.telephone && errors.telephone}
             />
@@ -101,6 +126,15 @@ export default function RegisterForm() {
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+          />
+
+          <TextField
+            fullWidth
+            autoComplete="password"
+            label="Password"
+            {...getFieldProps('password')}
+            error={Boolean(touched.password && errors.password)}
+            helperText={touched.password && errors.password}
           />
 
           <LoadingButton
