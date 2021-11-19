@@ -1,10 +1,10 @@
+/* eslint-disable */
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Card, Stack, Link, Container, Typography, CardActionArea } from '@mui/material';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import { Card, Stack, Link, Container, Typography } from '@mui/material';
+
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
 // components
@@ -12,6 +12,7 @@ import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import { LoginForm } from '../components/authentication/login';
 import AuthSocial from '../components/authentication/AuthSocial';
+import youngDoctor from '../assets/young-doctor.jpg';
 
 // ----------------------------------------------------------------------
 
@@ -58,26 +59,11 @@ export default function Main() {
       </AuthLayout>
 
       <MHidden width="mdDown">
-        <SectionStyle>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="../assets/pediatria.jpg"
-                alt="pediatria"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species,
-                  ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+      <SectionStyle>
+          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+            Gestioná el registro médico de tus hijos con MedicApp
+          </Typography>
+          <img alt="register" src={youngDoctor} />
         </SectionStyle>
       </MHidden>
 

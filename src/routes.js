@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import DashboardApp from './pages/Inicio';
 import MainApp from './pages/Main';
 import User from './pages/User';
+import Institucional from './pages/Institucional';
 import NotFound from './pages/Page404';
 import RegistroPediatrico from './pages/RegistroPediatrico';
 import TablaVacunas from './pages/TablaVacunas';
@@ -38,7 +39,8 @@ export default function Router() {
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/main" /> },
-        { path: '*', element: <Navigate to="/404" /> }
+        { path: '*', element: <Navigate to="/404" /> },
+        { path: 'institucional', element: <Institucional /> }
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> }
