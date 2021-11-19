@@ -22,6 +22,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TableRow from '@mui/material/TableRow';
+import { Stack, Container } from '@mui/material';
 import { getHijos } from '../controller/UserController';
 
 const columns = [
@@ -104,6 +105,12 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+            Vacunas Aplicadas
+          </Typography>
+        </Stack>
       <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -178,6 +185,7 @@ export default function StickyHeadTable() {
               </>
           })}
         </Box>
+        </Container>
     </Paper>
   );
 }
