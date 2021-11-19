@@ -16,10 +16,8 @@ export const login = async function (email, password) {
     });
     const status = response.status;
     let data = await response.json();
-    console.log(data);
     switch(status) {
         case 201: {
-            console.log("case");
             localStorage.setItem("token", data.loginUser.token);
             localStorage.setItem("user", JSON.stringify(data.loginUser.user));
             return ({ isLogin: true, message: "Ok" })
@@ -59,7 +57,8 @@ export const register = async function ({ firstName, lastName, dni, telephone, e
         console.log(data);
         switch(status) {
             case 201: {
-                console.log("case");
+                localStorage.setItem("token", data.loginUser.token);
+                localStorage.setItem("user", JSON.stringify(data.loginUser.user));
                 return ({ isRegistered: true, message: "Ok" })
                 break;
             }
@@ -76,8 +75,6 @@ export const register = async function ({ firstName, lastName, dni, telephone, e
 export const getHijos = async function () {
     let user = JSON.parse(localStorage.getItem('user'));
     let token = localStorage.getItem('token');
-    console.log("User");
-    console.log(user);
     try {
         const response = await fetch(urlWebServices.getHijos, {
           method: 'POST',
@@ -94,8 +91,6 @@ export const getHijos = async function () {
         let data = await response.json();
         switch(status) {
             case 200: {
-                console.log("case");
-                console.dir(data);
                 return ({ isSuccess: true, message: "Ok", 'hijos': data.data })
                 break;
             }
@@ -112,15 +107,6 @@ export const getHijos = async function () {
 export const crearHijo = async function (name, lastName, dni, birthDate, bloodType, chronicConditions, allergies) {
     let user = JSON.parse(localStorage.getItem('user'));
     let token = localStorage.getItem('token');
-    console.log("User");
-    console.log(user);
-    console.log(name);
-    console.log(lastName);
-    console.log(dni);
-    console.log(birthDate);
-    console.log(processBloodType(bloodType));
-    console.log(processEnfermedades(chronicConditions));
-    console.log(processAlergias(allergies));
     try {
         const response = await fetch(urlWebServices.crearHijo, {
           method: 'POST',
@@ -146,8 +132,6 @@ export const crearHijo = async function (name, lastName, dni, birthDate, bloodTy
         let data = await response.json();
         switch(status) {
             case 201: {
-                console.log("case");
-                console.dir(data);
                 return ({ isSuccess: true, message: "Ok", 'hijo': data.createdChild })
                 break;
             }
