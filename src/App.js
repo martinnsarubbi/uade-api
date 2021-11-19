@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // routes
 import Router from './routes';
 // theme

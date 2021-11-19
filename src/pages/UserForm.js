@@ -20,7 +20,7 @@ import { crearHijo } from 'src/controller/UserController';
 
 // ----------------------------------------------------------------------
 
-export default function UserForm() {
+export default function UserForm(props) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [enfermedades, setEnfermedades] = useState([]);
@@ -73,13 +73,16 @@ export default function UserForm() {
   });
 
   const registrarHijo = async function (initialValues) {
-    crearHijo(initialValues.firstName, initialValues.lastName, initialValues.dni, initialValues.fechaDeNacimiento, bloodType, enfermedades, alergias)
-    // let getLogin = await login(email, password);
-    // if (getLogin.isLogin) {
-    //     setUsuarioValido(true);
-    // } else {
-    //     alert(getLogin.message);
-    // }
+    let res = await crearHijo(initialValues.firstName, initialValues.lastName, initialValues.dni, initialValues.fechaDeNacimiento, bloodType, enfermedades, alergias)
+    if (res.isSuccess) {
+        console.log('res');
+        console.log(res);
+        props.updateHijos(res.hijo);
+        props.handleClose();
+    } else {
+        console.log(res.isSuccess);
+        alert(res.message);
+    }
   };
 
   const handleAddEnfermedad = (enfermedad) => {

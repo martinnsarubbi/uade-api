@@ -93,14 +93,14 @@ export const getHijos = async function () {
         const status = response.status;
         let data = await response.json();
         switch(status) {
-            case 201: {
+            case 200: {
                 console.log("case");
                 console.dir(data);
-                return ({ isLogin: true, message: "Ok" })
+                return ({ isSuccess: true, message: "Ok", 'hijos': data.data })
                 break;
             }
             default: {
-                return ({isLogin: false, message: "Usuario no encontrado"})
+                return ({ isSuccess: false, message: "Sin Hijos", 'hijos': null })
             }
         }
     
@@ -148,11 +148,11 @@ export const crearHijo = async function (name, lastName, dni, birthDate, bloodTy
             case 201: {
                 console.log("case");
                 console.dir(data);
-                // return ({ isLogin: true, message: "Ok" })
+                return ({ isSuccess: true, message: "Ok", 'hijo': data.createdChild })
                 break;
             }
             default: {
-                // return ({isLogin: false, message: "Usuario no encontrado"})
+                return ({ isSuccess: false, message: "Usuario no encontrado", 'hijo': null })
             }
         }
     

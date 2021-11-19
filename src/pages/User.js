@@ -12,16 +12,20 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
+  Collapse,
+  IconButton,
   Table,
   Stack,
   Avatar,
   Button,
   Checkbox,
+  TableHead,
   TableRow,
   TableBody,
   TableCell,
   Container,
   Typography,
+  Paper,
   TableContainer,
   TablePagination
 } from '@mui/material';
@@ -40,7 +44,11 @@ import { UserForm } from './UserForm';
 //
 import USERLIST from '../_mocks_/user';
 
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
 import { getHijos } from '../controller/UserController';
+
 
 // ----------------------------------------------------------------------
 
@@ -104,9 +112,8 @@ export default function User() {
   const [hijos, setHijos] = useState([]);
 
   React.useEffect(() => {
-      console.log("asd");
-      let hijos = getHijos();
-      console.log("xcv");
+      getHijos().then(data => {
+          setHijos([...data.hijos])})
   }, [])
 
   const handleRequestSort = (event, property) => {
@@ -165,6 +172,10 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  function updateHijos(hijoActualizado) {
+    setHijos([...hijos, hijoActualizado])
+  }
+
   return (
     <Page title="Inicio | MedicApp">
       <Container>
@@ -191,12 +202,11 @@ export default function User() {
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Agregar perfil del niño
               </Typography>
-              <UserForm />
+              <UserForm updateHijos={updateHijos} handleClose={handleClose}/>
             </Box>
           </Modal>
         </Stack>
-
-        <Card>
+        {/* <Card>
           <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
@@ -288,7 +298,38 @@ export default function User() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </Card>
+        </Card> */}
+        
+        <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Nombre</TableCell>
+            <TableCell align="right">DNI</TableCell>
+            <TableCell align="right">Fecha de Nacimiento</TableCell>
+            <TableCell align="right">Tipo de Sangre</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {hijos.map((hijo) => (
+            <TableRow
+              key={hijo._id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {hijo.name + " " + hijo.lastName}
+              </TableCell>
+              <TableCell align="right">{hijo.dni}</TableCell>
+              <TableCell align="right">{hijo.birthDate}</TableCell>
+              <TableCell align="right">{hijo.bloodType}</TableCell>
+              <TableCell align="right"><UserRegistrarVacuna id={hijo._id} /></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
       </Container>
     </Page>
   );
