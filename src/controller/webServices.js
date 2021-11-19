@@ -6,5 +6,6 @@ export const urlWebServices = {
   register: `${urlApi}/api/users/registration`,
   getHijos: `${urlApi}/api/children/childrenById`,
   crearHijo: `${urlApi}/api/children/createChild`,
-  agrearRegistroPedriatrico: `${urlApi}/api/registries/createRegistry`
+  agrearRegistroPedriatrico: `${urlApi}/api/registries/createRegistry`,
+  agregarVacuna: `${urlApi}/api/children/addVaccine`
 }

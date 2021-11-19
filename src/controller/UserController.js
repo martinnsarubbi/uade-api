@@ -148,14 +148,6 @@ export const crearHijo = async function (name, lastName, dni, birthDate, bloodTy
 export const agregarRegistroPedriatrico = async function (childId, date, doctorId, weight, height, headCirc, upcomingStudies, meds) {
     let user = JSON.parse(localStorage.getItem('user'));
     let token = localStorage.getItem('token');
-    console.log(childId);
-    console.log(date);
-    console.log(doctorId);
-    console.log(weight);
-    console.log(height);
-    console.log(headCirc);
-    console.log(upcomingStudies);
-    console.log(processMedicamentos(meds));
     try {
         const response = await fetch(urlWebServices.agrearRegistroPedriatrico, {
           method: 'POST',
@@ -186,6 +178,42 @@ export const agregarRegistroPedriatrico = async function (childId, date, doctorI
             }
             default: {
                 return ({ isSuccess: false, message: "Usuario no encontrado", 'registro': null })
+            }
+        }
+    
+      } catch (error){
+        console.error(error);
+      }
+};
+
+export const agregarVacuna = async function (childId, vacunas) {
+    let user = JSON.parse(localStorage.getItem('user'));
+    let token = localStorage.getItem('token');
+    console.dir(vacunas);
+    try {
+        const response = await fetch(urlWebServices.agrearRegistroPedriatrico, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'x-access-token': token
+          },
+          body: JSON.stringify({ 
+              'childId': childId,
+              'vaccination': processVacunas(vacunas)
+            })
+        });
+        const status = response.status;
+        let data = await response.json();
+        switch(status) {
+            case 201: {
+                return ({ isSuccess: true, message: "Ok", 'vacuna': data.addedVaccine })
+                break;
+            }
+            default: {
+                return ({ isSuccess: false, message: "Usuario no encontrado", 'vacuna': null })
             }
         }
     
@@ -250,5 +278,11 @@ function processMedicamentos(medicamentos) {
             "to": splits[3].trim()
         })
     }
+    return array;
+}
+
+function processVacunas(vacuna) {
+    let array = [];
+    array.push(vacuna);
     return array;
 }

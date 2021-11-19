@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,14 +8,15 @@ import Autocomplete from '@mui/material/Autocomplete';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import { agregarVacuna } from 'src/controller/UserController';
 
 // ----------------------------------------------------------------------
 
 export default function UserRegistrarVacuna({ id }) {
-  console.log('hoa');
 
   const [open, setOpen] = React.useState(false);
-  const [vacuna, setVacuna] = React.useState('hola');
+  const [vacuna, setVacuna] = React.useState('');
+  const [observaciones, setObservaciones] = React.useState('');
   const [lugarDeAplicacion, setLugarDeAplicacion] = React.useState('');
   const [fecha, setFecha] = React.useState(null);
 
@@ -31,11 +33,20 @@ export default function UserRegistrarVacuna({ id }) {
     setLugarDeAplicacion(event.target.value);
   };
 
+  const handleObservaciones = (event) => {
+    setObservaciones(event.target.value);
+  };
+
   const handleSubmit = () => {
-    console.log(vacuna);
-    console.log(lugarDeAplicacion);
-    console.log(fecha);
-    handleClose();
+        const vacunaAplicada = {
+            "vaccineName": vacuna,
+            "vaccinationDate": fecha,
+            "observations": observaciones,
+            "location": lugarDeAplicacion
+
+        }
+        agregarVacuna(id, vacunaAplicada)
+        handleClose();
   };
 
   const style = {
@@ -87,6 +98,9 @@ export default function UserRegistrarVacuna({ id }) {
           />
           <br />
           <TextField onChange={handleLugarDeAplicacion} />
+          <br />
+          <br />
+          <TextField onChange={handleObservaciones} />
           <br />
           <br />
           <LocalizationProvider dateAdapter={AdapterDateFns}>

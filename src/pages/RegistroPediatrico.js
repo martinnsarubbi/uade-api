@@ -143,8 +143,6 @@ export default function BasicTabs() {
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 {hijos.map((hijo, index) =>
                     <Tab label={hijo.name + " " + hijo.lastName} {...a11yProps(index)} />)}
-              {/* <Tab label="Olivia Diaz" {...a11yProps(0)} />
-              <Tab label="Álvaro Diaz" {...a11yProps(1)} /> */}
             </Tabs>
           </Box>
           {hijos.map((hijo, index) => {
