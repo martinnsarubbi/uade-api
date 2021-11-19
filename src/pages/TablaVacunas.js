@@ -21,9 +21,12 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import TableRow from '@mui/material/TableRow';
 import { Stack, Container } from '@mui/material';
 import { getHijos } from '../controller/UserController';
+import calendarioVacunacion from '../assets/calendarioVacunacion.JPG'
 
 const columns = [
   { id: 'nombreVacuna', label: 'Vacuna', minWidth: 170 },
@@ -103,6 +106,22 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 900,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <Container>
@@ -111,6 +130,15 @@ export default function StickyHeadTable() {
             Vacunas Aplicadas
           </Typography>
         </Stack>
+        <Button onClick={handleOpen}>Ver calendario de vacunación</Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+        >
+          <Box sx={style}>
+            <img src={calendarioVacunacion} alt="calendarioVacunacion" />
+          </Box>
+        </Modal>
       <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

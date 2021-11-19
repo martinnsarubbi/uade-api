@@ -1,12 +1,11 @@
-import { Icon } from '@iconify/react';
-import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
-import peopleFill from '@iconify/icons-eva/people-fill';
-import vaccine from '@iconify/icons-eva/color-picker-fill';
-import heart from '@iconify/icons-eva/heart-fill';
-
+import { Icon } from '@iconify/react'
+import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill'
+import peopleFill from '@iconify/icons-eva/people-fill'
+import vaccine from '@iconify/icons-eva/color-picker-fill'
+import heart from '@iconify/icons-eva/heart-fill'
 // ----------------------------------------------------------------------
 
-const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
+const getIcon = (name) => <Icon icon={name} width={22} height={22} />
 
 const sidebarConfig = [
   {
@@ -20,15 +19,15 @@ const sidebarConfig = [
     icon: getIcon(heart)
   },
   {
-    title: 'Calendario de vacunación',
+    title: 'Vacunación',
     path: 'vacunas',
     icon: getIcon(vaccine)
   },
   {
-    title: 'Indicadores',
+    title: 'Percentiles',
     path: 'indicadores',
     icon: getIcon(pieChart2Fill)
   }
-];
+]
 
-export default sidebarConfig;
+export default sidebarConfig

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // material
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -25,6 +26,12 @@ import {
 } from '../components/_dashboard/app';
 import boyPhoto from '../assets/alvaro.jpg';
 import girlPhoto from '../assets/olivia.jpg';
+import ninoPeso from '../assets/ninoPeso.JPG';
+import ninaPeso from '../assets/ninaPeso.JPG';
+import ninoAltura from '../assets/ninoAltura.JPG';
+import ninaAltura from '../assets/ninaAltura.JPG';
+import ninoCircu from '../assets/ninoCircu.JPG';
+import ninaCircu from '../assets/ninaCircu.JPG';
 
 // ----------------------------------------------------------------------
 
@@ -83,51 +90,20 @@ export default function DashboardApp() {
     <Page title="Dashboard | MedicApp">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Indicadores</Typography>
+          <Typography variant="h4">Percentiles</Typography>
         </Box>
         <Grid container spacing={3}>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                <Tab label="Altura (cm)" {...a11yProps(0)} />
-                <Tab label="Peso (kg)" {...a11yProps(1)} />
-                <Tab label="Diámetro encefálico (cm)" {...a11yProps(2)} />
+                <Tab label="Altura" {...a11yProps(0)} />
+                <Tab label="Peso" {...a11yProps(1)} />
+                <Tab label="Diámetro encefálico" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
               <Grid container spacing={3}>
-                <Grid item xs={8}>
-                  <AppAltura />
-                </Grid>
-                <Grid item xs={4}>
-                  <Grid container>
-                    <Grid xs={4}>
-                      <Avatar alt="Olivia" src={girlPhoto} sx={{ width: 60, height: 60 }} />
-                      <Typography variant="h5">Olivia Diaz</Typography>
-                    </Grid>
-                    <Grid xs={8}>
-                      <p>
-                        <b>Altura:</b> 73 cm
-                      </p>
-                      <p>Percentil P45</p>
-                    </Grid>
-                  </Grid>
-                  <Grid container>
-                    <Grid xs={4}>
-                      <Avatar alt="Olivia" src={boyPhoto} sx={{ width: 60, height: 60 }} />
-                      <Typography variant="h5">Álvaro Diaz</Typography>
-                    </Grid>
-                    <Grid xs={8}>
-                      <p>
-                        <b>Altura:</b> 55 cm
-                      </p>
-                      <p>Percentil P65</p>
-                    </Grid>
-                  </Grid>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <Typography
+              <Typography
                     aria-owns={open ? 'mouse-over-popover' : undefined}
                     aria-haspopup="true"
                     onMouseEnter={handlePopoverOpen}
@@ -161,43 +137,15 @@ export default function DashboardApp() {
                       más cerca de la media estará.
                     </Typography>
                   </Popover>
+                <Grid item xs={12}>
+                  <img src={ninoAltura} alt="ninoAltura" />
+                  <img src={ninaAltura} alt="ninaAltura" />
                 </Grid>
               </Grid>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <Grid container spacing={3}>
-                <Grid item xs={8}>
-                  <AppPeso />
-                </Grid>
-                <Grid item xs={4}>
-                  <Grid container>
-                    <Grid xs={4}>
-                      <Avatar alt="Olivia" src={girlPhoto} sx={{ width: 60, height: 60 }} />
-                      <Typography variant="h5">Olivia Diaz</Typography>
-                    </Grid>
-                    <Grid xs={8}>
-                      <p>
-                        <b>Peso:</b> 11 kg
-                      </p>
-                      <p>Percentil P57</p>
-                    </Grid>
-                  </Grid>
-                  <Grid container>
-                    <Grid xs={4}>
-                      <Avatar alt="Olivia" src={boyPhoto} sx={{ width: 60, height: 60 }} />
-                      <Typography variant="h5">Álvaro Diaz</Typography>
-                    </Grid>
-                    <Grid xs={8}>
-                      <p>
-                        <b>Peso:</b> 12 kg
-                      </p>
-                      <p>Percentil P41</p>
-                    </Grid>
-                  </Grid>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <Typography
+            <Grid container spacing={3}>
+            <Typography
                     aria-owns={open ? 'mouse-over-popover' : undefined}
                     aria-haspopup="true"
                     onMouseEnter={handlePopoverOpen}
@@ -231,31 +179,15 @@ export default function DashboardApp() {
                       más cerca de la media estará.
                     </Typography>
                   </Popover>
+                <Grid item xs={12}>
+                  <img src={ninoPeso} alt="ninoPeso" />
+                  <img src={ninaPeso} alt="ninaPeso" />
                 </Grid>
               </Grid>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Grid container spacing={3}>
-                <Grid item xs={8}>
-                  <AppDiametro />
-                </Grid>
-                <Grid item xs={4}>
-                  <Grid container>
-                    <Grid xs={4}>
-                      <Avatar alt="Olivia" src={boyPhoto} sx={{ width: 60, height: 60 }} />
-                      <Typography variant="h5">Álvaro Diaz</Typography>
-                    </Grid>
-                    <Grid xs={8}>
-                      <p>
-                        <b>Diámetro encefálico:</b> 40 cm
-                      </p>
-                      <p>Percentil P50</p>
-                    </Grid>
-                  </Grid>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <Typography
+            <Grid container spacing={3}>
+            <Typography
                     aria-owns={open ? 'mouse-over-popover' : undefined}
                     aria-haspopup="true"
                     onMouseEnter={handlePopoverOpen}
@@ -289,6 +221,9 @@ export default function DashboardApp() {
                       más cerca de la media estará.
                     </Typography>
                   </Popover>
+                <Grid item xs={12}>
+                  <img src={ninoCircu} alt="ninoCircu" />
+                  <img src={ninaCircu} alt="ninaCircu" />
                 </Grid>
               </Grid>
             </TabPanel>
