@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -14,6 +15,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TableRow from '@mui/material/TableRow';
 import { getHijos } from '../controller/UserController';
 
@@ -28,6 +35,39 @@ function createData(nombreVacuna, fechaAplicacion, institucion, marca) {
   return { nombreVacuna, fechaAplicacion, institucion, marca };
 }
 
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`
+    };
+  }
+
 const rows = [
   createData('BCG', '01/01/2020', 'Hospital Garrahan', 'X'),
   createData('Hepatitis B', '01/01/2020', 'Hospital Garrahan', 'Y'),
@@ -40,6 +80,7 @@ const rows = [
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [age, setAge] = React.useState('');
+  const [value, setValue] = React.useState(0);
   const [hijos, setHijos] = React.useState([]);
 
   React.useEffect(() => {
@@ -47,8 +88,8 @@ export default function StickyHeadTable() {
           setHijos([...data.hijos])})
   }, [])
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -63,61 +104,80 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <Typography variant="h4">Calendario de vacunación</Typography>
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={age}
-            label=""
-            onChange={handleChange}
-          >
-            <MenuItem value={10}>Olivia Diaz</MenuItem>
-            <MenuItem value={20}>Álvaro Diaz</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                {columns.map((column) => {
-                  const value = row[column.id];
-                  return (
-                    <TableCell key={column.id} align={column.align}>
-                      {column.format && typeof value === 'number' ? column.format(value) : value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                {hijos.map((hijo, index) =>
+                    <Tab label={hijo.name + " " + hijo.lastName} {...a11yProps(index)} />)}
+            </Tabs>
+          </Box>
+          {hijos.map((hijo, index) => {
+              return <>
+                    <TabPanel value={value} index={index}>
+                        {hijo.vaccinations.map((vaccine, index) => {
+                            return <Accordion>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel1a-content"
+                              id="panel1a-header"
+                              sx={{
+                                bgcolor: '#90EE90'
+                              }}
+                            >
+                              <Typography>{vaccine.vaccineName}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Grid container>
+                                  <Grid item xs>
+                                    <b>Peso:</b> {registry.weight}
+                                  </Grid>
+                                  <Divider orientation="vertical" flexItem />
+                                  <Grid item xs>
+                                    <b>Altura:</b> {registry.height}
+                                  </Grid>
+                                  <Divider orientation="vertical" flexItem />
+                                  <Grid item xs>
+                                    <b>Diámetro cabeza:</b> {registry.headCirc}
+                                  </Grid>
+                                </Grid>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Observaciones</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  Salud en perfecto estado. Se debe realizar otra revisión en 1 mes y medio.
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Medicamentos recetados:</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Estudios a realizar</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>Estudios de sangre - Estudios de orina</Typography>
+                              </Stack>
+                              <Button>Cargar estudios</Button> */}
+                            </AccordionDetails>
+                          </Accordion>
+                        })}
+                    </TabPanel>
+              </>
+          })}
+        </Box>
     </Paper>
   );
 }
