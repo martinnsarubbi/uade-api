@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Accordion from '@mui/material/Accordion';
@@ -14,6 +16,7 @@ import { Icon } from '@iconify/react';
 import Modal from '@mui/material/Modal';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import { useState } from 'react';
 import {
   Card,
   Table,
@@ -31,6 +34,8 @@ import Page from '../components/Page';
 import { RegistroPediatricoForm } from './RegistroPediatricoForm';
 import boyPhoto from '../assets/alvaro.jpg';
 import girlPhoto from '../assets/olivia.jpg';
+
+import { getHijos } from '../controller/UserController';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,6 +73,13 @@ function a11yProps(index) {
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
 
+  const [hijos, setHijos] = useState([]);
+
+  React.useEffect(() => {
+      getHijos().then(data => {
+          setHijos([...data.hijos])})
+  }, [])
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -99,6 +111,8 @@ export default function BasicTabs() {
   return (
     <Page title="Inicio | MedicApp">
       <Container>
+          {console.log("Hijos")}
+          {console.dir(hijos)}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Registros pediátricos
@@ -122,7 +136,7 @@ export default function BasicTabs() {
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Nuevo registro pediátrico
               </Typography>
-              <RegistroPediatricoForm />
+              <RegistroPediatricoForm handleClose={handleClose} hijos={hijos} setHijos={setHijos} />
             </Box>
           </Modal>
         </Stack>

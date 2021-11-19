@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as React from 'react';
 import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -13,6 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { getHijos } from '../controller/UserController';
 
 const columns = [
   { id: 'nombreVacuna', label: 'Vacuna', minWidth: 170 },
@@ -37,6 +40,12 @@ const rows = [
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [age, setAge] = React.useState('');
+  const [hijos, setHijos] = React.useState([]);
+
+  React.useEffect(() => {
+      getHijos().then(data => {
+          setHijos([...data.hijos])})
+  }, [])
 
   const handleChange = (event) => {
     setAge(event.target.value);

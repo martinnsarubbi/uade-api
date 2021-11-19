@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as Yup from 'yup';
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,14 +16,19 @@ import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
 // material
 import ChipInput from 'material-ui-chip-input';
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Divider, Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import { makeStyles } from "@material-ui/core/styles";
 import { LoadingButton } from '@mui/lab';
+import { agregarRegistroPedriatrico } from 'src/controller/UserController';
 
 // ----------------------------------------------------------------------
 
-export default function RegistroPediatricoForm() {
+export default function RegistroPediatricoForm(props) {
   const navigate = useNavigate();
   const [showobservaciones, setShowobservaciones] = useState(false);
+  const [estudios, setEstudios] = useState([]);
+  const [medicamentos, setMedicamentos] = useState([]);
+  const [hijo, setHijo] = React.useState(0);
 
   const RegisterSchema = Yup.object().shape({
     peso: Yup.string()
@@ -38,56 +44,97 @@ export default function RegistroPediatricoForm() {
       .max(50, 'Tu matricula no puede tener más de 15 dígitos')
       .required('matricula requerido'),
     fecha: Yup.date(),
-    diametro: Yup.string().min('Debe ser un número').required('diametro requerido'),
+    diametro: Yup.string().min(2, 'Debe ser un número').required('diametro requerido'),
     observaciones: Yup.string().required('observaciones requerida')
   });
 
-  const [bloodType, setBloodType] = React.useState('');
-
-  const handleChange = (event) => {
-    setBloodType(event.target.value);
-  };
-
   const formik = useFormik({
     initialValues: {
+      fechaControl: '',
+      matricula: '',
       peso: '',
       altura: '',
-      matricula: '',
-      fecha: '',
       diametro: '',
       observaciones: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: (initialValues) => {
+        agregarRegistro(initialValues)
+      // navigate('/dashboard', { replace: true });
     }
   });
 
-  const estudios = [];
-
-  const handleAddEstudio = (estudio) => {
-    estudios.push(estudio);
+  const agregarRegistro = async function (initialValues) {
+      let res = await agregarRegistroPedriatrico(
+          hijo,
+          initialValues.fechaControl,
+          initialValues.matricula,
+          initialValues.peso,
+          initialValues.altura,
+          initialValues.diametro,
+          estudios,
+          medicamentos
+      )
+    if (res.isSuccess) {
+        let copyHijos = [...props.hijos];
+        let index = copyHijos.findIndex((obj) => obj._id == hijo);
+        copyHijos[index].pediatricRegistries.push(res.registro);
+        props.setHijos([...copyHijos]);
+        props.handleClose();
+    } else {
+        console.log(res.isSuccess);
+        alert(res.message);
+    }
   };
 
-  const handleDeleteEstudio = (estudios, index) => {
-    if (index > -1) {
-      estudios.splice(index, 1);
-    }
+  const handleAddEstudio = (estudio) => {
+    setEstudios(estudios => [...estudios, estudio]);
+  };
+
+  const handleDeleteEstudio = (estudioBorrado, index) => {
+    setEstudios(estudios.filter(estudio => estudio !== estudioBorrado))
+  };
+
+  const handleAddMedicamento = (medicamento) => {
+    setMedicamentos(medicamentos => [...medicamentos, medicamento]);
+  };
+
+  const handleDeleteMedicamento = (medicamentoBorrado, index) => {
+    setMedicamentos(medicamentos.filter(medicamento => medicamento !== medicamentoBorrado))
+  };
+
+  const handleChange = (event) => {
+    setHijo(event.target.value);
   };
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
+  const debug = true;
+
   return (
-    <FormikProvider value={formik}>
+      <Stack>
+          <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div>&nbsp;</div>
+        <InputLabel id="hijo">Hijo</InputLabel>
+            <Select
+              labelId="Hijo"
+              id="hijo"
+              value={hijo}
+              label="Hijo"
+              onChange={handleChange}
+            >
+                {props.hijos.map((hijo) => 
+                    <MenuItem value={hijo._id}>{hijo.name + " " + hijo.lastName}</MenuItem>
+                )}
+            </Select>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField
             InputLabelProps={{ shrink: true }}
             fullWidth
             type="date"
             label="Fecha del control"
-            {...getFieldProps('fecha')}
+            {...getFieldProps('fechaControl')}
             error={Boolean(touched.fecha && errors.fecha)}
             helperText={touched.fecha && errors.fecha}
           />
@@ -133,13 +180,15 @@ export default function RegistroPediatricoForm() {
               helperText={touched.observaciones && errors.observaciones}
             />
           </Stack>
-          <Stack>
+          {/* <Stack>
             <Formik
               initialValues={{ medicam: [''] }}
-              onSubmit={(values) =>
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                }, 500)
+              onSubmit={(values) => {
+                    console.log("Values");
+                    console.log(values);
+                    setTimeout(() => {
+                    alert(JSON.stringify(values, null, 2));
+                }, 500)}
               }
               render={({ values }) => (
                 <Form>
@@ -211,6 +260,15 @@ export default function RegistroPediatricoForm() {
                 </Form>
               )}
             />
+          </Stack> */}
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <ChipInput
+              fullWidth
+              label="Medicamentos"
+              value={medicamentos}
+              onAdd={(medicamento) => handleAddMedicamento(medicamento)}
+              onDelete={(medicamento, index) => handleDeleteMedicamento(medicamento, index)}
+            />
           </Stack>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <ChipInput
@@ -218,7 +276,7 @@ export default function RegistroPediatricoForm() {
               label="Estudios médicos a realizar"
               value={estudios}
               onAdd={(estudio) => handleAddEstudio(estudio)}
-              onDelete={(estudio, index) => handleDeleteEstudio(estudios, index)}
+              onDelete={(estudio, index) => handleDeleteEstudio(estudio, index)}
             />
           </Stack>
           <Button color="secondary">Adjuntar estudio médico previo</Button>
@@ -227,13 +285,13 @@ export default function RegistroPediatricoForm() {
             size="large"
             type="submit"
             variant="contained"
-            loading={isSubmitting}
           >
             Agregar registro pediátrico
           </LoadingButton>
         </Stack>
       </Form>
     </FormikProvider>
+      </Stack>
   );
 }
 

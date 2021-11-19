@@ -145,6 +145,55 @@ export const crearHijo = async function (name, lastName, dni, birthDate, bloodTy
       }
 };
 
+export const agregarRegistroPedriatrico = async function (childId, date, doctorId, weight, height, headCirc, upcomingStudies, meds) {
+    let user = JSON.parse(localStorage.getItem('user'));
+    let token = localStorage.getItem('token');
+    console.log(childId);
+    console.log(date);
+    console.log(doctorId);
+    console.log(weight);
+    console.log(height);
+    console.log(headCirc);
+    console.log(upcomingStudies);
+    console.log(processMedicamentos(meds));
+    try {
+        const response = await fetch(urlWebServices.agrearRegistroPedriatrico, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'x-access-token': token
+          },
+          body: JSON.stringify({ 
+              'childId': childId,
+              'date': date,
+              'doctorId': doctorId,
+              'weight': weight,
+              'height': height,
+              'headCirc': headCirc,
+              'upcomingStudies': upcomingStudies.join(','),
+              'meds': processMedicamentos(meds)
+            })
+        });
+        const status = response.status;
+        let data = await response.json();
+        switch(status) {
+            case 201: {
+                return ({ isSuccess: true, message: "Ok", 'registro': data.createdRegistry })
+                break;
+            }
+            default: {
+                return ({ isSuccess: false, message: "Usuario no encontrado", 'registro': null })
+            }
+        }
+    
+      } catch (error){
+        console.error(error);
+      }
+};
+
 function processBloodType(bloodType) {
     switch(bloodType) {
         case 0: 
@@ -186,6 +235,20 @@ function processAlergias(alergias) {
     let array = [];
     for (const alergia of alergias) {
         array.push({"allergyName": alergia})
+    }
+    return array;
+}
+
+function processMedicamentos(medicamentos) {
+    let array = [];
+    for (const medicamento of medicamentos) {
+        let splits = medicamento.split(',');
+        array.push({
+            "medsName": splits[0].trim(),
+            "dosage": splits[1].trim(),
+            "from": splits[2].trim(),
+            "to": splits[3].trim()
+        })
     }
     return array;
 }
