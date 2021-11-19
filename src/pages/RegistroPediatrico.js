@@ -111,8 +111,6 @@ export default function BasicTabs() {
   return (
     <Page title="Inicio | MedicApp">
       <Container>
-          {console.log("Hijos")}
-          {console.dir(hijos)}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Registros pediátricos
@@ -143,100 +141,78 @@ export default function BasicTabs() {
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="Olivia Diaz" {...a11yProps(0)} />
-              <Tab label="Álvaro Diaz" {...a11yProps(1)} />
+                {hijos.map((hijo, index) =>
+                    <Tab label={hijo.name + " " + hijo.lastName} {...a11yProps(index)} />)}
+              {/* <Tab label="Olivia Diaz" {...a11yProps(0)} />
+              <Tab label="Álvaro Diaz" {...a11yProps(1)} /> */}
             </Tabs>
           </Box>
-          <TabPanel value={value} index={0}>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" spacing={8}>
-              <Avatar alt="Olivia" src={girlPhoto} sx={{ width: 120, height: 120 }} />
-              <Typography variant="h3" component="h3">
-                Fecha de nacimiento: 20/01/2020 (19 meses)
-              </Typography>
-            </Stack>
-            <div>&nbsp;</div>
-            <div>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  sx={{
-                    bgcolor: '#90EE90'
-                  }}
-                >
-                  <Typography>Control 10/01/2021</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Grid container>
-                      <Grid item xs>
-                        <b>Peso:</b> 123
-                      </Grid>
-                      <Divider orientation="vertical" flexItem />
-                      <Grid item xs>
-                        <b>Alura:</b> 123
-                      </Grid>
-                      <Divider orientation="vertical" flexItem />
-                      <Grid item xs>
-                        <b>Diámetro cabeza:</b> 123
-                      </Grid>
-                    </Grid>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography>
-                      <b>Observaciones</b>
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography>
-                      Salud en perfecto estado. Se debe realizar otra revisión en 1 mes y medio.
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography>
-                      <b>Medicamentos recetados:</b>
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography>
-                      Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography>
-                      <b>Estudios a realizar</b>
-                    </Typography>
-                  </Stack>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography>Estudios de sangre - Estudios de orina</Typography>
-                  </Stack>
-                  <Button>Cargar estudios</Button>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  sx={{
-                    bgcolor: '#90EE90'
-                  }}
-                >
-                  <Typography>Control 20/01/2020</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-                    lacus ex, sit amet blandit leo lobortis eget.
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            No hay datos cargados.
-          </TabPanel>
+          {hijos.map((hijo, index) => {
+              return <>
+                    <TabPanel value={value} index={index}>
+                        {hijo.pediatricRegistries.map((registry, index) => {
+                            return <Accordion>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel1a-content"
+                              id="panel1a-header"
+                              sx={{
+                                bgcolor: '#90EE90'
+                              }}
+                            >
+                              <Typography>{registry.date}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Grid container>
+                                  <Grid item xs>
+                                    <b>Peso:</b> {registry.weight}
+                                  </Grid>
+                                  <Divider orientation="vertical" flexItem />
+                                  <Grid item xs>
+                                    <b>Altura:</b> {registry.height}
+                                  </Grid>
+                                  <Divider orientation="vertical" flexItem />
+                                  <Grid item xs>
+                                    <b>Diámetro cabeza:</b> {registry.headCirc}
+                                  </Grid>
+                                </Grid>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Observaciones</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  Salud en perfecto estado. Se debe realizar otra revisión en 1 mes y medio.
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Medicamentos recetados:</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Estudios a realizar</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>Estudios de sangre - Estudios de orina</Typography>
+                              </Stack>
+                              <Button>Cargar estudios</Button>
+                            </AccordionDetails>
+                          </Accordion>
+                        })}
+                    </TabPanel>
+              </>
+          })}
         </Box>
       </Container>
     </Page>
