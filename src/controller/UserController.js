@@ -191,7 +191,7 @@ export const agregarVacuna = async function (childId, vacunas) {
     let token = localStorage.getItem('token');
     console.dir(vacunas);
     try {
-        const response = await fetch(urlWebServices.agrearRegistroPedriatrico, {
+        const response = await fetch(urlWebServices.agregarVacuna, {
           method: 'POST',
           mode: 'cors',
           headers: {

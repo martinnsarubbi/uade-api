@@ -39,7 +39,7 @@ export default function UserRegistrarVacuna({ id }) {
 
   const handleSubmit = () => {
         const vacunaAplicada = {
-            "vaccineName": vacuna,
+            "vaccineName": vacuna.label,
             "vaccinationDate": fecha,
             "observations": observaciones,
             "location": lugarDeAplicacion
