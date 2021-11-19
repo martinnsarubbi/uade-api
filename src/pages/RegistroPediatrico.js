@@ -158,7 +158,7 @@ export default function BasicTabs() {
                                 bgcolor: '#90EE90'
                               }}
                             >
-                              <Typography>{registry.date}</Typography>
+                              <Typography>{new Date(registry.date).toLocaleDateString('es-AR')}</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -183,10 +183,10 @@ export default function BasicTabs() {
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
-                                  Salud en perfecto estado. Se debe realizar otra revisión en 1 mes y medio.
+                                  {registry.observations}
                                 </Typography>
                               </Stack>
-                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                              {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
                                   <b>Medicamentos recetados:</b>
                                 </Typography>
@@ -195,14 +195,14 @@ export default function BasicTabs() {
                                 <Typography>
                                   Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
                                 </Typography>
-                              </Stack>
+                              </Stack> */}
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
                                   <b>Estudios a realizar</b>
                                 </Typography>
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                                <Typography>Estudios de sangre - Estudios de orina</Typography>
+                                <Typography>{registry.upcomingStudies}</Typography>
                               </Stack>
                               <Button>Cargar estudios</Button>
                             </AccordionDetails>

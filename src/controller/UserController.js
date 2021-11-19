@@ -145,7 +145,7 @@ export const crearHijo = async function (name, lastName, dni, birthDate, bloodTy
       }
 };
 
-export const agregarRegistroPedriatrico = async function (childId, date, doctorId, weight, height, headCirc, upcomingStudies, meds) {
+export const agregarRegistroPedriatrico = async function (childId, date, doctorId, weight, height, headCirc, observations, upcomingStudies, meds) {
     let user = JSON.parse(localStorage.getItem('user'));
     let token = localStorage.getItem('token');
     try {
@@ -165,6 +165,7 @@ export const agregarRegistroPedriatrico = async function (childId, date, doctorI
               'weight': weight,
               'height': height,
               'headCirc': headCirc,
+              'observations': observations,
               'upcomingStudies': upcomingStudies.join(','),
               'meds': processMedicamentos(meds)
             })

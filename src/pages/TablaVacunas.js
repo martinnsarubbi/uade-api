@@ -162,20 +162,15 @@ export default function StickyHeadTable() {
                               <Typography>{vaccine.vaccineName}</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                              {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                                <Grid container>
-                                  <Grid item xs>
-                                    <b>Peso:</b> {registry.weight}
-                                  </Grid>
-                                  <Divider orientation="vertical" flexItem />
-                                  <Grid item xs>
-                                    <b>Altura:</b> {registry.height}
-                                  </Grid>
-                                  <Divider orientation="vertical" flexItem />
-                                  <Grid item xs>
-                                    <b>Diámetro cabeza:</b> {registry.headCirc}
-                                  </Grid>
-                                </Grid>
+                            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  <b>Nombre de Vacuna</b>
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                <Typography>
+                                  {vaccine.vaccineName}
+                                </Typography>
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
@@ -184,28 +179,27 @@ export default function StickyHeadTable() {
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
-                                  Salud en perfecto estado. Se debe realizar otra revisión en 1 mes y medio.
+                                  {vaccine.observations}
                                 </Typography>
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
-                                  <b>Medicamentos recetados:</b>
+                                  <b>Lugar de Aplicacion</b>
                                 </Typography>
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
-                                  Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
+                                  {vaccine.location}
                                 </Typography>
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
-                                  <b>Estudios a realizar</b>
+                                  <b>Fecha de Aplicacion</b>
                                 </Typography>
                               </Stack>
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                                <Typography>Estudios de sangre - Estudios de orina</Typography>
+                                <Typography>{new Date(vaccine.vaccinationDate).toLocaleDateString('es-AR')}</Typography>
                               </Stack>
-                              <Button>Cargar estudios</Button> */}
                             </AccordionDetails>
                           </Accordion>
                         })}

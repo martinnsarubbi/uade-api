@@ -176,6 +176,8 @@ export default function User() {
     setHijos([...hijos, hijoActualizado])
   }
 
+  const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+
   return (
     <Page title="Inicio | MedicApp">
       <Container>
@@ -322,7 +324,7 @@ export default function User() {
                 {hijo.name + " " + hijo.lastName}
               </TableCell>
               <TableCell align="right">{hijo.dni}</TableCell>
-              <TableCell align="right">{hijo.birthDate}</TableCell>
+              <TableCell align="right">{new Date(hijo.birthDate).toLocaleDateString('es-AR', dateOptions)}</TableCell>
               <TableCell align="right">{hijo.bloodType}</TableCell>
               <TableCell align="right"><UserRegistrarVacuna id={hijo._id} /></TableCell>
             </TableRow>

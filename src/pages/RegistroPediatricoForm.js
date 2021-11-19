@@ -72,6 +72,7 @@ export default function RegistroPediatricoForm(props) {
           initialValues.peso,
           initialValues.altura,
           initialValues.diametro,
+          initialValues.observaciones,
           estudios,
           medicamentos
       )
@@ -261,7 +262,7 @@ export default function RegistroPediatricoForm(props) {
               )}
             />
           </Stack> */}
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <ChipInput
               fullWidth
               label="Medicamentos"
@@ -269,7 +270,7 @@ export default function RegistroPediatricoForm(props) {
               onAdd={(medicamento) => handleAddMedicamento(medicamento)}
               onDelete={(medicamento, index) => handleDeleteMedicamento(medicamento, index)}
             />
-          </Stack>
+          </Stack> */}
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <ChipInput
               fullWidth
