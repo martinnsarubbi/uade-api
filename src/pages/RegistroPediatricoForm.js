@@ -55,7 +55,8 @@ export default function RegistroPediatricoForm(props) {
       peso: '',
       altura: '',
       diametro: '',
-      observaciones: ''
+      observaciones: '',
+      medicamentos: []
     },
     validationSchema: RegisterSchema,
     onSubmit: (initialValues) => {
@@ -65,27 +66,28 @@ export default function RegistroPediatricoForm(props) {
   });
 
   const agregarRegistro = async function (initialValues) {
-      let res = await agregarRegistroPedriatrico(
-          hijo,
-          initialValues.fechaControl,
-          initialValues.matricula,
-          initialValues.peso,
-          initialValues.altura,
-          initialValues.diametro,
-          initialValues.observaciones,
-          estudios,
-          medicamentos
-      )
-    if (res.isSuccess) {
-        let copyHijos = [...props.hijos];
-        let index = copyHijos.findIndex((obj) => obj._id == hijo);
-        copyHijos[index].pediatricRegistries.push(res.registro);
-        props.setHijos([...copyHijos]);
-        props.handleClose();
-    } else {
-        console.log(res.isSuccess);
-        alert(res.message);
-    }
+      console.log(initialValues.medicamentos);
+    //   let res = await agregarRegistroPedriatrico(
+    //       hijo,
+    //       initialValues.fechaControl,
+    //       initialValues.matricula,
+    //       initialValues.peso,
+    //       initialValues.altura,
+    //       initialValues.diametro,
+    //       initialValues.observaciones,
+    //       estudios,
+    //       medicamentos
+    //   )
+    // if (res.isSuccess) {
+    //     let copyHijos = [...props.hijos];
+    //     let index = copyHijos.findIndex((obj) => obj._id == hijo);
+    //     copyHijos[index].pediatricRegistries.push(res.registro);
+    //     props.setHijos([...copyHijos]);
+    //     props.handleClose();
+    // } else {
+    //     console.log(res.isSuccess);
+    //     alert(res.message);
+    // }
   };
 
   const handleAddEstudio = (estudio) => {
@@ -181,96 +183,59 @@ export default function RegistroPediatricoForm(props) {
               helperText={touched.observaciones && errors.observaciones}
             />
           </Stack>
-          {/* <Stack>
-            <Formik
-              initialValues={{ medicam: [''] }}
-              onSubmit={(values) => {
-                    console.log("Values");
-                    console.log(values);
-                    setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                }, 500)}
-              }
-              render={({ values }) => (
-                <Form>
-                  <FieldArray
-                    name="medicam"
-                    render={(arrayHelpers) => (
-                      <div>
-                        {values.medicam && values.medicam.length > 0 ? (
-                          values.medicam.map((friend, index) => (
-                            <div key={index}>
-                              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                                <TextField
-                                  fullWidth
-                                  label="Nombre medicamento"
-                                  name={`medicam.${index}`}
-                                />
-                                <TextField
-                                  fullWidth
-                                  label="Dosis"
-                                  name={`medicam.${index} && dosis`}
-                                />
-                              </Stack>
-                              <div>&nbsp;</div>
-                              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                                <TextField
-                                  InputLabelProps={{ shrink: true }}
-                                  label="Desde"
-                                  type="date"
-                                  name={`medicam.${index} && desde`}
-                                />
-                                <TextField
-                                  InputLabelProps={{ shrink: true }}
-                                  label="Hasta"
-                                  type="date"
-                                  name={`medicam.${index} && hasta`}
-                                />
-                                <IconButton
-                                  aria-label="delete"
-                                  onClick={() => {
-                                    arrayHelpers.remove(index);
-                                  }}
-                                >
-                                  <DeleteIcon />
-                                </IconButton>
-                                <IconButton
-                                  aria-label="delete"
-                                  onClick={() => {
-                                    arrayHelpers.insert(index, '');
-                                  }}
-                                >
-                                  <AddIcon />
-                                </IconButton>
-                              </Stack>
-                            </div>
-                          ))
-                        ) : (
-                          <Button
-                            variant="text"
-                            onClick={() => {
-                              arrayHelpers.push('');
-                            }}
-                          >
-                            Agregar medicamento
-                          </Button>
-                        )}
-                      </div>
-                    )}
-                  />
-                </Form>
-              )}
+          <Stack>
+          <FieldArray
+            name="medicamentos"
+            render={(arrayHelpers) => (
+                <div>
+                {formik.values.medicamentos.map((medicamento, index) => (
+                    <div key={index}>
+                    {/** both these conventions do the same  */}
+                    <TextField
+                        label="Nombre del Medicamento"
+                        name={`medicamentos[${index}].name`}
+                        value={formik.values.medicamentos[index].name}
+                        onChange={formik.handleChange}
+                    />
+                    <TextField
+                        label="Dosis"
+                        name={`medicamentos.${index}.dosage`}
+                        value={formik.values.medicamentos[index].dosage}
+                        onChange={formik.handleChange}
+                    />
+                    <TextField
+                        label="Fecha de Inicio"
+                        name={`medicamentos.${index}.startDate`}
+                        value={formik.values.medicamentos[index].startDate}
+                        type="date"
+                        onChange={formik.handleChange}
+                    />
+                    <TextField
+                        label="Fecha Final"
+                        name={`medicamentos.${index}.endDate`}
+                        value={formik.values.medicamentos[index].endDate}
+                        type="date"
+                        onChange={formik.handleChange}
+                    />
+
+                    <button
+                        type="button"
+                        onClick={() => arrayHelpers.remove(index)}
+                    >
+                    -
+                    </button>
+                    </div>
+                ))}
+                <button
+                    type="button"
+                    onClick={() => arrayHelpers.push({ name: "", dosage: "", startDate: "", endDate: "" })}
+                >
+                    +
+                </button>
+                </div>
+            )}
             />
-          </Stack> */}
-          {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <ChipInput
-              fullWidth
-              label="Medicamentos"
-              value={medicamentos}
-              onAdd={(medicamento) => handleAddMedicamento(medicamento)}
-              onDelete={(medicamento, index) => handleDeleteMedicamento(medicamento, index)}
-            />
-          </Stack> */}
+          </Stack>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <ChipInput
               fullWidth
