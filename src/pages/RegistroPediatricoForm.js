@@ -66,28 +66,27 @@ export default function RegistroPediatricoForm(props) {
   });
 
   const agregarRegistro = async function (initialValues) {
-      console.log(initialValues.medicamentos);
-    //   let res = await agregarRegistroPedriatrico(
-    //       hijo,
-    //       initialValues.fechaControl,
-    //       initialValues.matricula,
-    //       initialValues.peso,
-    //       initialValues.altura,
-    //       initialValues.diametro,
-    //       initialValues.observaciones,
-    //       estudios,
-    //       medicamentos
-    //   )
-    // if (res.isSuccess) {
-    //     let copyHijos = [...props.hijos];
-    //     let index = copyHijos.findIndex((obj) => obj._id == hijo);
-    //     copyHijos[index].pediatricRegistries.push(res.registro);
-    //     props.setHijos([...copyHijos]);
-    //     props.handleClose();
-    // } else {
-    //     console.log(res.isSuccess);
-    //     alert(res.message);
-    // }
+      let res = await agregarRegistroPedriatrico(
+          hijo,
+          initialValues.fechaControl,
+          initialValues.matricula,
+          initialValues.peso,
+          initialValues.altura,
+          initialValues.diametro,
+          initialValues.observaciones,
+          estudios,
+          initialValues.medicamentos
+      )
+    if (res.isSuccess) {
+        let copyHijos = [...props.hijos];
+        let index = copyHijos.findIndex((obj) => obj._id == hijo);
+        copyHijos[index].pediatricRegistries.push(res.registro);
+        props.setHijos([...copyHijos]);
+        props.handleClose();
+    } else {
+        console.log(res.isSuccess);
+        alert(res.message);
+    }
   };
 
   const handleAddEstudio = (estudio) => {
@@ -183,8 +182,8 @@ export default function RegistroPediatricoForm(props) {
               helperText={touched.observaciones && errors.observaciones}
             />
           </Stack>
-          <Stack>
-          <FieldArray
+          <Stack direction="row" spacing={3}>
+            <FieldArray
             name="medicamentos"
             render={(arrayHelpers) => (
                 <div>
@@ -193,8 +192,8 @@ export default function RegistroPediatricoForm(props) {
                     {/** both these conventions do the same  */}
                     <TextField
                         label="Nombre del Medicamento"
-                        name={`medicamentos[${index}].name`}
-                        value={formik.values.medicamentos[index].name}
+                        name={`medicamentos[${index}].medsName`}
+                        value={formik.values.medicamentos[index].medsName}
                         onChange={formik.handleChange}
                     />
                     <TextField
@@ -204,20 +203,21 @@ export default function RegistroPediatricoForm(props) {
                         onChange={formik.handleChange}
                     />
                     <TextField
+                        InputLabelProps={{ shrink: true }}
                         label="Fecha de Inicio"
-                        name={`medicamentos.${index}.startDate`}
-                        value={formik.values.medicamentos[index].startDate}
+                        name={`medicamentos.${index}.from`}
+                        value={formik.values.medicamentos[index].from}
                         type="date"
                         onChange={formik.handleChange}
                     />
                     <TextField
+                        InputLabelProps={{ shrink: true }}
                         label="Fecha Final"
-                        name={`medicamentos.${index}.endDate`}
-                        value={formik.values.medicamentos[index].endDate}
+                        name={`medicamentos.${index}.to`}
+                        value={formik.values.medicamentos[index].to}
                         type="date"
                         onChange={formik.handleChange}
                     />
-
                     <button
                         type="button"
                         onClick={() => arrayHelpers.remove(index)}
@@ -228,7 +228,7 @@ export default function RegistroPediatricoForm(props) {
                 ))}
                 <button
                     type="button"
-                    onClick={() => arrayHelpers.push({ name: "", dosage: "", startDate: "", endDate: "" })}
+                    onClick={() => arrayHelpers.push({ medsName: "", dosage: "", from: "", to: "" })}
                 >
                     +
                 </button>

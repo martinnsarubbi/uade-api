@@ -73,10 +73,11 @@ function a11yProps(index) {
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
 
-  const [hijos, setHijos] = useState([]);
+  const [hijos, setHijos] = React.useState([]);
 
   React.useEffect(() => {
       getHijos().then(data => {
+          console.log(data);
           setHijos([...data.hijos])})
   }, [])
 
@@ -186,16 +187,18 @@ export default function BasicTabs() {
                                   {registry.observations}
                                 </Typography>
                               </Stack>
-                              {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
                                   <b>Medicamentos recetados:</b>
                                 </Typography>
                               </Stack>
-                              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                                <Typography>
-                                  Ibupirac - 1 dosis por dia - (desde el 10/01/2020 hasta el 13/01/2020)
-                                </Typography>
-                              </Stack> */}
+                              {registry.meds.map((med, index) => {
+                                  return <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                                      <Typography>
+                                          {med.medsName}, Dosaje: {med.dosage}. Desde: {new Date(med.from).toLocaleDateString('es-AR')} - Hasta: {new Date(med.to).toLocaleDateString('es-AR')}
+                                      </Typography>
+                                  </Stack>
+                              })}
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>
                                   <b>Estudios a realizar</b>

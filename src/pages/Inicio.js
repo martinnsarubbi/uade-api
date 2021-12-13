@@ -2,7 +2,7 @@
 // material
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Container, Typography, Avatar } from '@mui/material';
+import { Box, Grid, Container, Typography, Avatar, Stack} from '@mui/material';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Popover from '@mui/material/Popover';
@@ -33,6 +33,8 @@ import ninaAltura from '../assets/ninaAltura.JPG';
 import ninoCircu from '../assets/ninoCircu.JPG';
 import ninaCircu from '../assets/ninaCircu.JPG';
 
+import { getHijos } from '../controller/UserController';
+
 // ----------------------------------------------------------------------
 
 function TabPanel(props) {
@@ -61,6 +63,7 @@ export default function DashboardApp() {
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired
   };
+
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -69,6 +72,14 @@ export default function DashboardApp() {
   }
 
   const [value, setValue] = React.useState(0);
+
+  const [hijos, setHijos] = React.useState([]);
+
+  React.useEffect(() => {
+      getHijos().then(data => {
+          console.log(data);
+          setHijos([...data.hijos])})
+  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,6 +102,13 @@ export default function DashboardApp() {
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Percentiles</Typography>
+        </Box>
+        <Box sx={{ pb: 5 }}>
+        {hijos.map((hijo, index) => {
+              return <>
+              hijo: {hijo.name}
+              </>
+          })}
         </Box>
         <Grid container spacing={3}>
           <Box sx={{ width: '100%' }}>

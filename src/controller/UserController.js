@@ -167,7 +167,7 @@ export const agregarRegistroPedriatrico = async function (childId, date, doctorI
               'headCirc': headCirc,
               'observations': observations,
               'upcomingStudies': upcomingStudies.join(','),
-              'meds': processMedicamentos(meds)
+              'meds': meds
             })
         });
         const status = response.status;
