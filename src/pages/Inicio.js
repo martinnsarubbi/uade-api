@@ -77,7 +77,7 @@ export default function DashboardApp() {
 
   React.useEffect(() => {
       getHijos().then(data => {
-          console.log(data);
+          data.hijos.forEach(hijo => hijo.pediatricRegistries = hijo.pediatricRegistries.sort( (a, b) => a.date <= b.date));
           setHijos([...data.hijos])})
   }, [])
 
