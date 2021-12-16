@@ -10,6 +10,8 @@ import DashboardApp from './pages/Inicio';
 import MainApp from './pages/Main';
 import User from './pages/User';
 import Institucional from './pages/Institucional';
+import Recuperar from './pages/Recuperar';
+import ResetPassword from './pages/ResetPassword';
 import NotFound from './pages/Page404';
 import RegistroPediatrico from './pages/RegistroPediatrico';
 import TablaVacunas from './pages/TablaVacunas';
@@ -40,7 +42,9 @@ export default function Router() {
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/main" /> },
         { path: '*', element: <Navigate to="/404" /> },
-        { path: 'institucional', element: <Institucional /> }
+        { path: 'institucional', element: <Institucional /> },
+        { path: 'recuperar', element: <Recuperar /> },
+        { path: 'reset', element: <ResetPassword /> }
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> }

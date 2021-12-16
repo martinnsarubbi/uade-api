@@ -107,7 +107,7 @@ export default function LoginForm() {
             label="Recordarme"
           />
 
-          <Link component={RouterLink} variant="subtitle2" to="user">
+          <Link component={RouterLink} variant="subtitle2" to="/recuperar">
             ¿Olvidaste tu contraseña?
           </Link>
         </Stack>
