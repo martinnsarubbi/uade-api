@@ -1,6 +1,6 @@
 # Medicapp Frontend
 
-### Prerequisites
+### Prerequisitos
 
 Node
 npm
@@ -8,7 +8,7 @@ react
 
 ## Setup
 
-> Install packages and run the application
+> Instalar los paquetes y correr la aplicación
 
 ```shell
 $ npm install
@@ -17,4 +17,4 @@ $ npm install
 $ npm start
 ```
 
-The application will now be running on localhost:3000
+La aplicación ahora estará corriendo en localhost:3000
