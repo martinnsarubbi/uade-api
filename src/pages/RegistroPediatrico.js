@@ -108,6 +108,17 @@ export default function BasicTabs() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [file, setFile] = React.useState(null);
+
+  function onFileChange(event) {
+    setFile(event.target.files[0]);
+  };
+  
+  function onFileUpload(id) {
+      console.log(hijos)
+      console.log(id)
+      console.log(file);
+  }
 
   return (
     <Page title="Inicio | MedicApp">
@@ -207,7 +218,8 @@ export default function BasicTabs() {
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>{registry.upcomingStudies}</Typography>
                               </Stack>
-                              <Button>Cargar estudios</Button>
+                              <input type="file" onChange={onFileChange} />
+                              <Button onClick={() => onFileUpload(registry._id)}>Cargar estudios</Button>
                             </AccordionDetails>
                           </Accordion>
                         })}
