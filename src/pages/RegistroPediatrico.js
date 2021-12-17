@@ -218,8 +218,6 @@ export default function BasicTabs() {
                               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                                 <Typography>{registry.upcomingStudies}</Typography>
                               </Stack>
-                              <input type="file" onChange={onFileChange} />
-                              <Button onClick={() => onFileUpload(registry._id)}>Cargar estudios</Button>
                             </AccordionDetails>
                           </Accordion>
                         })}

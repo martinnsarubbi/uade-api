@@ -97,10 +97,10 @@ export default function UserRegistrarVacuna({ id }) {
             renderInput={(params) => <TextField {...params} label="Vacuna" />}
           />
           <br />
-          <TextField onChange={handleLugarDeAplicacion} />
+          <TextField label="Lugar de Aplicacion" onChange={handleLugarDeAplicacion} />
           <br />
           <br />
-          <TextField onChange={handleObservaciones} />
+          <TextField label="Observaciones" onChange={handleObservaciones} />
           <br />
           <br />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
