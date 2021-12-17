@@ -8,7 +8,7 @@ import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
-import RecuperarForm from './RecuperarForm';
+import ResetPasswordForm from './ResetPasswordForm';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function ResetPassword() {
   return (
-    <RootStyle title="Recuperar | Minimal-UI">
+    <RootStyle title="Reset | Minimal-UI">
       <AuthLayout>
         ¿Ya tenés una cuenta? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
@@ -48,7 +48,7 @@ export default function ResetPassword() {
             <Typography sx={{ color: 'text.secondary' }}>Registrate acá.</Typography>
           </Box>
 
-          <RecuperarForm />
+          <ResetPasswordForm />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
             Al registrarme acepto los &nbsp;

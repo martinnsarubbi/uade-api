@@ -223,6 +223,70 @@ export const agregarVacuna = async function (childId, vacunas) {
       }
 };
 
+export const enviarEmail = async function (email) {
+    try {
+        const response = await fetch(urlWebServices.enviarEmail, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+              'destinatario': email
+            })
+        });
+        const status = response.status;
+        let data = await response.json();
+        switch(status) {
+            case 201: {
+                return ({ isSuccess: true, message: "Ok" })
+                break;
+            }
+            default: {
+                return ({ isSuccess: false, message: "Email no encontrado" })
+            }
+        }
+    
+      } catch (error){
+        console.error(error);
+      }
+};
+
+export const cambiarPassword = async function (email, token, password) {
+    try {
+        const response = await fetch(urlWebServices.cambiarPassword, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+              'email': email,
+              'code': token,
+              'newPassword': password
+            })
+        });
+        const status = response.status;
+        let data = await response.json();
+        switch(status) {
+            case 201: {
+                return ({ isSuccess: true, message: "Ok" })
+                break;
+            }
+            default: {
+                return ({ isSuccess: false, message: "Cambio de contraseña fallido" })
+            }
+        }
+    
+      } catch (error){
+        console.error(error);
+      }
+};
+
 function processBloodType(bloodType) {
     switch(bloodType) {
         case 0: 

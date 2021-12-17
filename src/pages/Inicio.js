@@ -78,6 +78,7 @@ export default function DashboardApp() {
   React.useEffect(() => {
       getHijos().then(data => {
           data.hijos.forEach(hijo => hijo.pediatricRegistries = hijo.pediatricRegistries.sort( (a, b) => a.date <= b.date));
+          console.log(data.hijos)
           setHijos([...data.hijos])})
   }, [])
 
@@ -106,7 +107,15 @@ export default function DashboardApp() {
         <Box sx={{ pb: 5 }}>
         {hijos.map((hijo, index) => {
               return <>
-              hijo: {hijo.name}
+              <Stack direction="row" spacing={2}>
+                  <Typography><b>{hijo.name}</b>:</Typography>
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <Typography>Altura: {hijo.pediatricRegistries[0] ? hijo.pediatricRegistries[0].height : "Sin valor especificado"}</Typography>
+                <Typography>Peso: {hijo.pediatricRegistries[0] ? hijo.pediatricRegistries[0].weight : "Sin valor especificado"}</Typography>
+                <Typography>Diámetro Encefálico: {hijo.pediatricRegistries[0] ? hijo.pediatricRegistries[0].headCirc : "Sin valor especificado"}</Typography>
+              </Stack>
+              <br />
               </>
           })}
         </Box>

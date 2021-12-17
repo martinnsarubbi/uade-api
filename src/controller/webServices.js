@@ -1,4 +1,4 @@
-// const urlApi = 'http://localhost:4000/'
+// const urlApi = 'http://localhost:4000'
 const urlApi = 'https://uade-api-back-end.herokuapp.com'
 
 export const urlWebServices = {
@@ -7,5 +7,7 @@ export const urlWebServices = {
   getHijos: `${urlApi}/api/children/childrenById`,
   crearHijo: `${urlApi}/api/children/createChild`,
   agrearRegistroPedriatrico: `${urlApi}/api/registries/createRegistry`,
-  agregarVacuna: `${urlApi}/api/children/addVaccine`
+  agregarVacuna: `${urlApi}/api/children/addVaccine`,
+  enviarEmail: `${urlApi}/api/users/sendMail`,
+  cambiarPassword: `${urlApi}/api/users/resetPassword`
 }
